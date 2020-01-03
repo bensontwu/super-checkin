@@ -29,30 +29,29 @@
 import UIKit
 import MapKit
 
-protocol AddGeotificationsViewControllerDelegate {
-  func addGeotificationViewController(_ controller: AddGeotificationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
-                                      radius: Double, identifier: String, note: String, eventType: Geotification.EventType)
+protocol AddEventLocationViewControllerDelegate {
+  func addEventLocationViewController(_ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
+                                      radius: Double, identifier: String, note: String, startTime: Date, endTime: Date)
 }
 
-class AddGeotificationViewController: UITableViewController {
+class AddEventLocationViewController: UIViewController {
   
   @IBOutlet var addButton: UIBarButtonItem!
-  @IBOutlet var zoomButton: UIBarButtonItem!
-  @IBOutlet weak var eventTypeSegmentedControl: UISegmentedControl!
   @IBOutlet weak var radiusTextField: UITextField!
-  @IBOutlet weak var noteTextField: UITextField!
+  @IBOutlet weak var startTimeTextField: UITextField!
+  @IBOutlet weak var endTimeTextField: UITextField!
   @IBOutlet weak var mapView: MKMapView!
   
-  var delegate: AddGeotificationsViewControllerDelegate?
+  var delegate: AddEventLocationViewControllerDelegate?
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    navigationItem.rightBarButtonItems = [addButton, zoomButton]
+    navigationItem.rightBarButtonItem = addButton
     addButton.isEnabled = false
   }
   
   @IBAction func textFieldEditingChanged(sender: UITextField) {
-    addButton.isEnabled = !radiusTextField.text!.isEmpty && !noteTextField.text!.isEmpty
+    addButton.isEnabled = !radiusTextField.text!.isEmpty && !startTimeTextField.text!.isEmpty && !endTimeTextField.text!.isEmpty
   }
   
   @IBAction func onCancel(sender: AnyObject) {
@@ -63,9 +62,10 @@ class AddGeotificationViewController: UITableViewController {
     let coordinate = mapView.centerCoordinate
     let radius = Double(radiusTextField.text!) ?? 0
     let identifier = NSUUID().uuidString
-    let note = noteTextField.text
-    let eventType: Geotification.EventType = (eventTypeSegmentedControl.selectedSegmentIndex == 0) ? .onEntry : .onExit
-    delegate?.addGeotificationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, note: note!, eventType: eventType)
+    let note = ""
+    let startTime = Date()
+    let endTime = Date()
+    delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, note: note, startTime: startTime, endTime: endTime)
   }
   
   @IBAction private func onZoomToCurrentLocation(sender: AnyObject) {

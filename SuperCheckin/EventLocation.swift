@@ -30,22 +30,18 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class Geotification: NSObject, Codable, MKAnnotation {
-  
-  enum EventType: String {
-    case onEntry = "On Entry"
-    case onExit = "On Exit"
-  }
+class EventLocation: NSObject, Codable, MKAnnotation {
   
   enum CodingKeys: String, CodingKey {
-    case latitude, longitude, radius, identifier, note, eventType
+    case latitude, longitude, radius, identifier, note, startTime, endTime
   }
   
   var coordinate: CLLocationCoordinate2D
   var radius: CLLocationDistance
   var identifier: String
   var note: String
-  var eventType: EventType
+  var startTime: Date
+  var endTime: Date
   
   var title: String? {
     if note.isEmpty {
@@ -54,17 +50,13 @@ class Geotification: NSObject, Codable, MKAnnotation {
     return note
   }
   
-  var subtitle: String? {
-    let eventTypeString = eventType.rawValue
-    return "Radius: \(radius)m - \(eventTypeString)"
-  }
-  
-  init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, note: String, eventType: EventType) {
+  init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, note: String, startTime: Date, endTime: Date) {
     self.coordinate = coordinate
     self.radius = radius
     self.identifier = identifier
     self.note = note
-    self.eventType = eventType
+    self.startTime = startTime
+    self.endTime = endTime
   }
   
   // MARK: Codable
@@ -76,8 +68,8 @@ class Geotification: NSObject, Codable, MKAnnotation {
     radius = try values.decode(Double.self, forKey: .radius)
     identifier = try values.decode(String.self, forKey: .identifier)
     note = try values.decode(String.self, forKey: .note)
-    let event = try values.decode(String.self, forKey: .eventType)
-    eventType = EventType(rawValue: event) ?? .onEntry
+    startTime = try values.decode(Date.self, forKey: .startTime)
+    endTime = try values.decode(Date.self, forKey: .endTime)
   }
 
   func encode(to encoder: Encoder) throws {
@@ -87,17 +79,18 @@ class Geotification: NSObject, Codable, MKAnnotation {
     try container.encode(radius, forKey: .radius)
     try container.encode(identifier, forKey: .identifier)
     try container.encode(note, forKey: .note)
-    try container.encode(eventType.rawValue, forKey: .eventType)
+    try container.encode(startTime, forKey: .startTime)
+    try container.encode(endTime, forKey: .endTime)
   }
 
 }
 
-extension Geotification {
-  public class func allGeotifications() -> [Geotification] {
+extension EventLocation {
+  public class func allEvents() -> [EventLocation] {
     guard let savedData = UserDefaults.standard.data(forKey: PreferencesKeys.savedItems) else { return [] }
     let decoder = JSONDecoder()
-    if let savedGeotifications = try? decoder.decode(Array.self, from: savedData) as [Geotification] {
-      return savedGeotifications
+    if let savedEvents = try? decoder.decode(Array.self, from: savedData) as [EventLocation] {
+      return savedEvents
     }
     return []
   }
