@@ -172,12 +172,12 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
   
   func addEventLocationViewController(
     _ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
-    radius: Double, identifier: String, note: String, startTime: Date, endTime: Date
+    radius: Double, identifier: String, name: String, startTime: Date, endTime: Date
   ) {
     controller.dismiss(animated: true, completion: nil)
     // 1
     let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)
-    let eventLocation = EventLocation(coordinate: coordinate, radius: clampedRadius, identifier: identifier, note: note, startTime: startTime, endTime: endTime)
+    let eventLocation = EventLocation(coordinate: coordinate, radius: clampedRadius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
     add(eventLocation)
     // 2
     startMonitoring(eventLocation: eventLocation)
