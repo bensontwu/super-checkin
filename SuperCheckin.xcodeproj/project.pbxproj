@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26533FA823BEEF2100681252 /* LaunchScreen.xib */; };
 		D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CB6521A739B7A00228A1F /* AppDelegate.swift */; };
 		D90CB6581A739B7A00228A1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D90CB6561A739B7A00228A1F /* Main.storyboard */; };
 		D90CB65A1A739B7A00228A1F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D90CB6591A739B7A00228A1F /* Images.xcassets */; };
@@ -20,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		26533FA723BEEE1300681252 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = /Users/benson/Projects/SuperCheckin/SuperCheckin/LaunchScreen.xib; sourceTree = "<absolute>"; };
+		26533FA923BEEF2100681252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A16373B92054471A0065C2D9 /* Google.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Google.gpx; sourceTree = "<group>"; };
 		A16373BA2054475A0065C2D9 /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatedLocations.gpx; sourceTree = "<group>"; };
 		D90CB64D1A739B7A00228A1F /* SuperCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +80,7 @@
 				D9835AF21AA6076800D265BC /* Utilities.swift */,
 				D90CB6561A739B7A00228A1F /* Main.storyboard */,
 				D90CB6591A739B7A00228A1F /* Images.xcassets */,
-				26533FA723BEEE1300681252 /* LaunchScreen.xib */,
+				26533FA823BEEF2100681252 /* LaunchScreen.xib */,
 				D90CB6501A739B7A00228A1F /* Supporting Files */,
 			);
 			path = SuperCheckin;
@@ -173,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */,
 				D90CB6581A739B7A00228A1F /* Main.storyboard in Resources */,
 				D9C1AF6C1A77CD6C00A06B2F /* Apple.gpx in Resources */,
 				D90CB65A1A739B7A00228A1F /* Images.xcassets in Resources */,
@@ -197,6 +199,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		26533FA823BEEF2100681252 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				26533FA923BEEF2100681252 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
 		D90CB6561A739B7A00228A1F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
