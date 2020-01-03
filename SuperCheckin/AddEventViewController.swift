@@ -48,10 +48,22 @@ class AddEventLocationViewController: UIViewController {
     super.viewDidLoad()
     navigationItem.rightBarButtonItem = addButton
     addButton.isEnabled = false
+    
+    let tapGesture = UITapGestureRecognizer()
+    tapGesture.addTarget(self, action: #selector(dismissKeyboard))
+    view.addGestureRecognizer(tapGesture)
+  }
+  
+  @objc func dismissKeyboard() {
+    view.endEditing(true)
   }
   
   @IBAction func textFieldEditingChanged(sender: UITextField) {
     addButton.isEnabled = !radiusTextField.text!.isEmpty && !startTimeTextField.text!.isEmpty && !endTimeTextField.text!.isEmpty
+  }
+  
+  @IBAction func textFieldReturn(sender: UITextField) {
+    sender.resignFirstResponder()
   }
   
   @IBAction func onCancel(sender: AnyObject) {

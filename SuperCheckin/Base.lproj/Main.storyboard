@@ -42,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Yb-lx-9MZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1802" y="954"/>
+            <point key="canvasLocation" x="-1642" y="505"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Md4-q9-2ef">
@@ -154,7 +154,7 @@
             </objects>
             <point key="canvasLocation" x="285.60000000000002" y="504.67980295566502"/>
         </scene>
-        <!--Add Geotification-->
+        <!--Add Event-->
         <scene sceneID="4VD-iA-Lm9">
             <objects>
                 <viewController id="cgO-X0-YkS" customClass="AddEventLocationViewController" customModule="SuperCheckin" customModuleProvider="target" sceneMemberID="viewController">
@@ -175,46 +175,49 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ge4-1Y-Jpy">
                                 <rect key="frame" x="0.0" y="390" width="375" height="334"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOV-B1-UBx">
-                                        <rect key="frame" x="60" y="60" width="48" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radius" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOV-B1-UBx">
+                                        <rect key="frame" x="60" y="60" width="60" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2UV-u6-xM4">
-                                        <rect key="frame" x="168" y="55" width="147" height="34"/>
+                                        <rect key="frame" x="180" y="55" width="135" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="textFieldEditingChangedWithSender:" destination="cgO-X0-YkS" eventType="editingDidEnd" id="dfg-dc-n6Z"/>
+                                            <action selector="textFieldReturnWithSender:" destination="cgO-X0-YkS" eventType="primaryActionTriggered" id="U4S-ZN-55W"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NPH-wd-yEJ">
-                                        <rect key="frame" x="60" y="155" width="48" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Time" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NPH-wd-yEJ">
+                                        <rect key="frame" x="59.999999999999993" y="155" width="90.333333333333314" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pdH-kZ-L0H">
-                                        <rect key="frame" x="168" y="150" width="147" height="34"/>
+                                        <rect key="frame" x="210.33333333333334" y="150" width="104.66666666666666" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="textFieldEditingChangedWithSender:" destination="cgO-X0-YkS" eventType="editingDidEnd" id="pzX-wI-R9M"/>
+                                            <action selector="textFieldReturnWithSender:" destination="cgO-X0-YkS" eventType="primaryActionTriggered" id="cMN-U1-dEb"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXa-83-xwq">
-                                        <rect key="frame" x="60" y="250" width="48" height="24"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXa-83-xwq">
+                                        <rect key="frame" x="60.000000000000007" y="250" width="81.666666666666686" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TK6-11-Up2">
-                                        <rect key="frame" x="168" y="245" width="147" height="34"/>
+                                        <rect key="frame" x="201.66666666666666" y="245" width="113.33333333333334" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="textFieldEditingChangedWithSender:" destination="cgO-X0-YkS" eventType="editingDidEnd" id="3VL-gq-BM0"/>
+                                            <action selector="textFieldReturnWithSender:" destination="cgO-X0-YkS" eventType="primaryActionTriggered" id="jNP-MM-YDH"/>
                                         </connections>
                                     </textField>
                                 </subviews>
@@ -253,7 +256,7 @@
                             <constraint firstItem="ge4-1Y-Jpy" firstAttribute="leading" secondItem="qPe-6A-vtI" secondAttribute="leading" id="y0g-85-XR7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Geotification" id="WiJ-LV-fpQ">
+                    <navigationItem key="navigationItem" title="Add Event" id="WiJ-LV-fpQ">
                         <leftBarButtonItems>
                             <barButtonItem title="Cancel" id="xKb-ZS-2xA">
                                 <connections>
