@@ -33,28 +33,28 @@ import CoreLocation
 class EventLocation: NSObject, Codable, MKAnnotation {
   
   enum CodingKeys: String, CodingKey {
-    case latitude, longitude, radius, identifier, note, startTime, endTime
+    case latitude, longitude, radius, identifier, name, startTime, endTime
   }
   
   var coordinate: CLLocationCoordinate2D
   var radius: CLLocationDistance
   var identifier: String
-  var note: String
+  var name: String
   var startTime: Date
   var endTime: Date
   
   var title: String? {
-    if note.isEmpty {
+    if name.isEmpty {
       return "No Note"
     }
-    return note
+    return name
   }
   
-  init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, note: String, startTime: Date, endTime: Date) {
+  init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, name: String, startTime: Date, endTime: Date) {
     self.coordinate = coordinate
     self.radius = radius
     self.identifier = identifier
-    self.note = note
+    self.name = name
     self.startTime = startTime
     self.endTime = endTime
   }
@@ -67,7 +67,7 @@ class EventLocation: NSObject, Codable, MKAnnotation {
     coordinate = CLLocationCoordinate2DMake(latitude, longitude)
     radius = try values.decode(Double.self, forKey: .radius)
     identifier = try values.decode(String.self, forKey: .identifier)
-    note = try values.decode(String.self, forKey: .note)
+    name = try values.decode(String.self, forKey: .name)
     startTime = try values.decode(Date.self, forKey: .startTime)
     endTime = try values.decode(Date.self, forKey: .endTime)
   }
@@ -78,7 +78,7 @@ class EventLocation: NSObject, Codable, MKAnnotation {
     try container.encode(coordinate.longitude, forKey: .longitude)
     try container.encode(radius, forKey: .radius)
     try container.encode(identifier, forKey: .identifier)
-    try container.encode(note, forKey: .note)
+    try container.encode(name, forKey: .name)
     try container.encode(startTime, forKey: .startTime)
     try container.encode(endTime, forKey: .endTime)
   }

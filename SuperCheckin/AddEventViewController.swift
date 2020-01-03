@@ -31,16 +31,17 @@ import MapKit
 
 protocol AddEventLocationViewControllerDelegate {
   func addEventLocationViewController(_ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
-                                      radius: Double, identifier: String, note: String, startTime: Date, endTime: Date)
+                                      radius: Double, identifier: String, name: String, startTime: Date, endTime: Date)
 }
 
-class AddEventLocationViewController: UIViewController {
+class AddEventLocationViewController: UITableViewController {
   
   @IBOutlet var addButton: UIBarButtonItem!
-  @IBOutlet weak var radiusTextField: UITextField!
-  @IBOutlet weak var startTimeTextField: UITextField!
-  @IBOutlet weak var endTimeTextField: UITextField!
-  @IBOutlet weak var mapView: MKMapView!
+  @IBOutlet var nameTextField: UITextField!
+  @IBOutlet var radiusTextField: UITextField!
+  @IBOutlet var startTimeTextField: UITextField!
+  @IBOutlet var endTimeTextField: UITextField!
+  @IBOutlet var mapView: MKMapView!
   
   var delegate: AddEventLocationViewControllerDelegate?
   
@@ -59,11 +60,21 @@ class AddEventLocationViewController: UIViewController {
   }
   
   @IBAction func textFieldEditingChanged(sender: UITextField) {
-    addButton.isEnabled = !radiusTextField.text!.isEmpty && !startTimeTextField.text!.isEmpty && !endTimeTextField.text!.isEmpty
+    addButton.isEnabled = !nameTextField.text!.isEmpty && !radiusTextField.text!.isEmpty && !startTimeTextField.text!.isEmpty && !endTimeTextField.text!.isEmpty
   }
   
   @IBAction func textFieldReturn(sender: UITextField) {
-    sender.resignFirstResponder()
+    print("textFieldReturn")
+    switch sender {
+    case nameTextField:
+      radiusTextField.becomeFirstResponder()
+    case radiusTextField:
+      startTimeTextField.becomeFirstResponder()
+    case startTimeTextField:
+      endTimeTextField.becomeFirstResponder()
+    default:
+      sender.resignFirstResponder()
+    }
   }
   
   @IBAction func onCancel(sender: AnyObject) {
@@ -74,13 +85,15 @@ class AddEventLocationViewController: UIViewController {
     let coordinate = mapView.centerCoordinate
     let radius = Double(radiusTextField.text!) ?? 0
     let identifier = NSUUID().uuidString
-    let note = ""
+    let name = ""
     let startTime = Date()
     let endTime = Date()
-    delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, note: note, startTime: startTime, endTime: endTime)
+    delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
   }
   
   @IBAction private func onZoomToCurrentLocation(sender: AnyObject) {
     mapView.zoomToUserLocation()
   }
+  
+  
 }
