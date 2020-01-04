@@ -24,9 +24,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="Cw1-Dn-61F"/>
                                 </constraints>
-                                <state key="normal" title="Log In">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
+                                <state key="normal" title="Log In"/>
                                 <connections>
                                     <segue destination="Zci-E9-QA1" kind="presentation" modalPresentationStyle="fullScreen" id="0b7-uE-JDP"/>
                                 </connections>
@@ -84,9 +82,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jyh-Tp-3yz">
                                         <rect key="frame" x="30" y="30" width="85" height="68"/>
-                                        <state key="normal" title="Add Location">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </state>
+                                        <state key="normal" title="Add Location"/>
                                         <connections>
                                             <segue destination="a2K-QE-PF7" kind="presentation" identifier="addEventLocationSegue" id="Ftc-uV-0oZ"/>
                                         </connections>

@@ -30,70 +30,70 @@ import UIKit
 import MapKit
 
 protocol AddEventLocationViewControllerDelegate {
-  func addEventLocationViewController(_ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
-                                      radius: Double, identifier: String, name: String, startTime: Date, endTime: Date)
+    func addEventLocationViewController(_ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
+                                        radius: Double, identifier: String, name: String, startTime: Date, endTime: Date)
 }
 
 class AddEventLocationViewController: UITableViewController {
-  
-  @IBOutlet var addButton: UIBarButtonItem!
-  @IBOutlet var nameTextField: UITextField!
-  @IBOutlet var radiusTextField: UITextField!
-  @IBOutlet var startTimeTextField: UITextField!
-  @IBOutlet var endTimeTextField: UITextField!
-  @IBOutlet var mapView: MKMapView!
-  
-  var delegate: AddEventLocationViewControllerDelegate?
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    navigationItem.rightBarButtonItem = addButton
-    addButton.isEnabled = false
     
-    let tapGesture = UITapGestureRecognizer()
-    tapGesture.addTarget(self, action: #selector(dismissKeyboard))
-    view.addGestureRecognizer(tapGesture)
-  }
-  
-  @objc func dismissKeyboard() {
-    view.endEditing(true)
-  }
-  
-  @IBAction func textFieldEditingChanged(sender: UITextField) {
-    addButton.isEnabled = !nameTextField.text!.isEmpty && !radiusTextField.text!.isEmpty && !startTimeTextField.text!.isEmpty && !endTimeTextField.text!.isEmpty
-  }
-  
-  @IBAction func textFieldReturn(sender: UITextField) {
-    print("textFieldReturn")
-    switch sender {
-    case nameTextField:
-      radiusTextField.becomeFirstResponder()
-    case radiusTextField:
-      startTimeTextField.becomeFirstResponder()
-    case startTimeTextField:
-      endTimeTextField.becomeFirstResponder()
-    default:
-      sender.resignFirstResponder()
+    @IBOutlet var addButton: UIBarButtonItem!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var radiusTextField: UITextField!
+    @IBOutlet var startTimeTextField: UITextField!
+    @IBOutlet var endTimeTextField: UITextField!
+    @IBOutlet var mapView: MKMapView!
+    
+    var delegate: AddEventLocationViewControllerDelegate?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.rightBarButtonItem = addButton
+        addButton.isEnabled = false
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addTarget(self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
-  }
-  
-  @IBAction func onCancel(sender: AnyObject) {
-    dismiss(animated: true, completion: nil)
-  }
-  
-  @IBAction private func onAdd(sender: AnyObject) {
-    let coordinate = mapView.centerCoordinate
-    let radius = Double(radiusTextField.text!) ?? 0
-    let identifier = NSUUID().uuidString
-    let name = nameTextField.text ?? ""
-    let startTime = Date()
-    let endTime = Date()
-    delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
-  }
-  
-  @IBAction private func onZoomToCurrentLocation(sender: AnyObject) {
-    mapView.zoomToUserLocation()
-  }
-  
-  
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @IBAction func textFieldEditingChanged(sender: UITextField) {
+        addButton.isEnabled = !nameTextField.text!.isEmpty && !radiusTextField.text!.isEmpty && !startTimeTextField.text!.isEmpty && !endTimeTextField.text!.isEmpty
+    }
+    
+    @IBAction func textFieldReturn(sender: UITextField) {
+        print("textFieldReturn")
+        switch sender {
+        case nameTextField:
+            radiusTextField.becomeFirstResponder()
+        case radiusTextField:
+            startTimeTextField.becomeFirstResponder()
+        case startTimeTextField:
+            endTimeTextField.becomeFirstResponder()
+        default:
+            sender.resignFirstResponder()
+        }
+    }
+    
+    @IBAction func onCancel(sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction private func onAdd(sender: AnyObject) {
+        let coordinate = mapView.centerCoordinate
+        let radius = Double(radiusTextField.text!) ?? 0
+        let identifier = NSUUID().uuidString
+        let name = nameTextField.text ?? ""
+        let startTime = Date()
+        let endTime = Date()
+        delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
+    }
+    
+    @IBAction private func onZoomToCurrentLocation(sender: AnyObject) {
+        mapView.zoomToUserLocation()
+    }
+    
+    
 }

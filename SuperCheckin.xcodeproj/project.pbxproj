@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2607348D23C03DA300BB2A4D /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2607348C23C03DA300BB2A4D /* APICaller.swift */; };
+		262E947B23C04F8C00932487 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 262E947A23C04F8C00932487 /* GoogleService-Info.plist */; };
 		26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26533FA823BEEF2100681252 /* LaunchScreen.xib */; };
 		370662402B373F2C47F7AE6C /* Pods_SuperCheckin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */; };
 		D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CB6521A739B7A00228A1F /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperCheckin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2607348C23C03DA300BB2A4D /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
+		262E947A23C04F8C00932487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		26533FA923BEEF2100681252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		877EB5ACA85BC051279830CF /* Pods-SuperCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperCheckin.release.xcconfig"; path = "Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin.release.xcconfig"; sourceTree = "<group>"; };
 		A16373B92054471A0065C2D9 /* Google.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Google.gpx; sourceTree = "<group>"; };
@@ -64,7 +66,6 @@
 				BFC65DE3930DFBD875DAE1DE /* Pods-SuperCheckin.debug.xcconfig */,
 				877EB5ACA85BC051279830CF /* Pods-SuperCheckin.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -76,9 +77,10 @@
 				D90CB64E1A739B7A00228A1F /* Products */,
 				D357F3020909EDC7DB5373A7 /* Pods */,
 			);
-			indentWidth = 2;
+			indentWidth = 4;
 			sourceTree = "<group>";
-			tabWidth = 2;
+			tabWidth = 4;
+			usesTabs = 0;
 		};
 		D90CB64E1A739B7A00228A1F /* Products */ = {
 			isa = PBXGroup;
@@ -100,6 +102,7 @@
 				D90CB6561A739B7A00228A1F /* Main.storyboard */,
 				D90CB6591A739B7A00228A1F /* Images.xcassets */,
 				26533FA823BEEF2100681252 /* LaunchScreen.xib */,
+				262E947A23C04F8C00932487 /* GoogleService-Info.plist */,
 				D90CB6501A739B7A00228A1F /* Supporting Files */,
 			);
 			path = SuperCheckin;
@@ -157,11 +160,10 @@
 				LastSwiftMigration = 0730;
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0930;
-				ORGANIZATIONNAME = "Ken Toh";
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					D90CB64C1A739B7A00228A1F = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = RU62WF75ZQ;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -173,7 +175,7 @@
 				};
 			};
 			buildConfigurationList = D90CB6481A739B7A00228A1F /* Build configuration list for PBXProject "SuperCheckin" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -198,6 +200,7 @@
 			files = (
 				26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */,
 				D90CB6581A739B7A00228A1F /* Main.storyboard in Resources */,
+				262E947B23C04F8C00932487 /* GoogleService-Info.plist in Resources */,
 				D9C1AF6C1A77CD6C00A06B2F /* Apple.gpx in Resources */,
 				D90CB65A1A739B7A00228A1F /* Images.xcassets in Resources */,
 			);
@@ -233,13 +236,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -394,7 +396,10 @@
 				DEVELOPMENT_TEAM = RU62WF75ZQ;
 				INFOPLIST_FILE = SuperCheckin/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bensontwu.SuperCheckin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -413,11 +418,15 @@
 				DEVELOPMENT_TEAM = RU62WF75ZQ;
 				INFOPLIST_FILE = SuperCheckin/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bensontwu.SuperCheckin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

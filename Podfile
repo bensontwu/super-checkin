@@ -6,6 +6,8 @@ target 'SuperCheckin' do
   use_frameworks!
 
   # Pods for SuperCheckin
-  pod 'Alamofire', '~> 5.0.0-rc.3'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  pod 'SVProgressHUD'
 
 end
