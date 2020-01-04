@@ -24,9 +24,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="Cw1-Dn-61F"/>
                                 </constraints>
-                                <state key="normal" title="Log In">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
+                                <state key="normal" title="Log In"/>
                                 <connections>
                                     <segue destination="Zci-E9-QA1" kind="presentation" modalPresentationStyle="fullScreen" id="0b7-uE-JDP"/>
                                 </connections>
@@ -84,11 +82,9 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jyh-Tp-3yz">
                                         <rect key="frame" x="30" y="30" width="85" height="68"/>
-                                        <state key="normal" title="Add Location">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </state>
+                                        <state key="normal" title="Add Location"/>
                                         <connections>
-                                            <segue destination="a2K-QE-PF7" kind="presentation" id="Ftc-uV-0oZ"/>
+                                            <segue destination="a2K-QE-PF7" kind="presentation" identifier="addEventLocationSegue" id="Ftc-uV-0oZ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="f7y-gy-jHa">
@@ -96,12 +92,18 @@
                                         <state key="normal" title="Check In">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="checkInButtonTapped:" destination="LYI-dq-R4y" eventType="touchUpInside" id="CeL-zd-ani"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Jsb-gn-GTi">
                                         <rect key="frame" x="260" y="30" width="85" height="68"/>
                                         <state key="normal" title="Check Out">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="checkOutButtonTapped:" destination="LYI-dq-R4y" eventType="touchUpInside" id="6Yu-Xc-WG8"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -147,6 +149,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addLocationButton" destination="jyh-Tp-3yz" id="5JS-y6-oAw"/>
+                        <outlet property="checkInButton" destination="f7y-gy-jHa" id="IC9-wQ-Ncj"/>
+                        <outlet property="checkOutButton" destination="Jsb-gn-GTi" id="sgq-J9-WjT"/>
                         <outlet property="mapView" destination="fP9-ox-VWa" id="Be5-Fa-6so"/>
                     </connections>
                 </viewController>
@@ -320,11 +325,11 @@
                         <sections>
                             <tableViewSection id="hU7-dF-VwL">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="JJA-Dl-uSE">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="300.33334350585938"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="300" id="JJA-Dl-uSE">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JJA-Dl-uSE" id="OcY-yr-1Vy">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="300.33334350585938"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JJA-Dl-uSE" id="OcY-yr-1Vy">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xAh-dG-yP8">
@@ -333,9 +338,14 @@
                                                         <constraint firstAttribute="height" constant="300" id="fT1-bc-2Ka"/>
                                                     </constraints>
                                                 </mapView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AddPin" translatesAutoresizingMaskIntoConstraints="NO" id="s7m-hN-aVM">
+                                                    <rect key="frame" x="150" y="112.66666666666669" width="75" height="75"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="s7m-hN-aVM" firstAttribute="centerX" secondItem="xAh-dG-yP8" secondAttribute="centerX" id="73r-xi-iIB"/>
                                                 <constraint firstItem="xAh-dG-yP8" firstAttribute="leading" secondItem="OcY-yr-1Vy" secondAttribute="leading" id="Ogd-Ej-vl8"/>
+                                                <constraint firstItem="s7m-hN-aVM" firstAttribute="centerY" secondItem="xAh-dG-yP8" secondAttribute="centerY" id="Vui-yP-yud"/>
                                                 <constraint firstItem="xAh-dG-yP8" firstAttribute="top" secondItem="OcY-yr-1Vy" secondAttribute="top" id="oaq-FZ-d9h"/>
                                                 <constraint firstAttribute="trailing" secondItem="xAh-dG-yP8" secondAttribute="trailing" id="ryV-5q-U18"/>
                                                 <constraint firstAttribute="bottom" secondItem="xAh-dG-yP8" secondAttribute="bottom" id="t1u-dt-pRJ"/>
@@ -343,7 +353,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="K4u-NU-Q98">
-                                        <rect key="frame" x="0.0" y="328.33334350585938" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="328" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K4u-NU-Q98" id="xUI-DW-Bjm">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -375,7 +385,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="lcR-wB-pyB">
-                                        <rect key="frame" x="0.0" y="372.33334350585938" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="372" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lcR-wB-pyB" id="FRr-uJ-SzE">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -407,7 +417,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="loP-55-6HI">
-                                        <rect key="frame" x="0.0" y="416.33334350585938" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="416" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="loP-55-6HI" id="7sm-hM-h3K">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -439,7 +449,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="br2-La-Uml">
-                                        <rect key="frame" x="0.0" y="460.33334350585938" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="460" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="br2-La-Uml" id="Rl5-Sq-ufj">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -508,7 +518,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a0f-tG-njz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2135.1999999999998" y="1200"/>
+            <point key="canvasLocation" x="2084" y="1200"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="apu-t2-rbL">
