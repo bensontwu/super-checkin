@@ -88,7 +88,7 @@
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
-                                            <segue destination="a2K-QE-PF7" kind="presentation" id="Ftc-uV-0oZ"/>
+                                            <segue destination="a2K-QE-PF7" kind="presentation" identifier="addEventLocationSegue" id="Ftc-uV-0oZ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="f7y-gy-jHa">
@@ -96,12 +96,18 @@
                                         <state key="normal" title="Check In">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="checkInButtonTapped:" destination="LYI-dq-R4y" eventType="touchUpInside" id="CeL-zd-ani"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Jsb-gn-GTi">
                                         <rect key="frame" x="260" y="30" width="85" height="68"/>
                                         <state key="normal" title="Check Out">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="checkOutButtonTapped:" destination="LYI-dq-R4y" eventType="touchUpInside" id="6Yu-Xc-WG8"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -147,6 +153,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addLocationButton" destination="jyh-Tp-3yz" id="5JS-y6-oAw"/>
+                        <outlet property="checkInButton" destination="f7y-gy-jHa" id="IC9-wQ-Ncj"/>
+                        <outlet property="checkOutButton" destination="Jsb-gn-GTi" id="sgq-J9-WjT"/>
                         <outlet property="mapView" destination="fP9-ox-VWa" id="Be5-Fa-6so"/>
                     </connections>
                 </viewController>
@@ -333,9 +342,14 @@
                                                         <constraint firstAttribute="height" constant="300" id="fT1-bc-2Ka"/>
                                                     </constraints>
                                                 </mapView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AddPin" translatesAutoresizingMaskIntoConstraints="NO" id="s7m-hN-aVM">
+                                                    <rect key="frame" x="150" y="112.66666666666669" width="75" height="75"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="s7m-hN-aVM" firstAttribute="centerX" secondItem="xAh-dG-yP8" secondAttribute="centerX" id="73r-xi-iIB"/>
                                                 <constraint firstItem="xAh-dG-yP8" firstAttribute="leading" secondItem="OcY-yr-1Vy" secondAttribute="leading" id="Ogd-Ej-vl8"/>
+                                                <constraint firstItem="s7m-hN-aVM" firstAttribute="centerY" secondItem="xAh-dG-yP8" secondAttribute="centerY" id="Vui-yP-yud"/>
                                                 <constraint firstItem="xAh-dG-yP8" firstAttribute="top" secondItem="OcY-yr-1Vy" secondAttribute="top" id="oaq-FZ-d9h"/>
                                                 <constraint firstAttribute="trailing" secondItem="xAh-dG-yP8" secondAttribute="trailing" id="ryV-5q-U18"/>
                                                 <constraint firstAttribute="bottom" secondItem="xAh-dG-yP8" secondAttribute="bottom" id="t1u-dt-pRJ"/>

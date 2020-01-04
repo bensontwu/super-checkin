@@ -46,3 +46,8 @@ extension MKMapView {
     setRegion(region, animated: true)
   }
 }
+
+struct AppColors {
+  static let green = UIColor.init(red: 20/255, green: 200/255, blue: 20/255, alpha: 1)
+  static let red = UIColor.init(red: 200/255, green: 20/255, blue: 20/255, alpha: 1)
+}

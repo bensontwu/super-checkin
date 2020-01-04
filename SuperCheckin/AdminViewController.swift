@@ -37,16 +37,48 @@ struct PreferencesKeys {
 class AdminViewController: UIViewController {
   
   @IBOutlet weak var mapView: MKMapView!
+  @IBOutlet var addLocationButton: UIButton!
+  @IBOutlet var checkInButton: UIButton!
+  @IBOutlet var checkOutButton: UIButton!
   
   var eventLocations: [EventLocation] = []
-  
+  var insideRegions: [String] = [] {
+    didSet {
+      if insideRegions.isEmpty {
+        checkInButton.isEnabled = false
+        checkOutButton.isEnabled = false
+      } else {
+        checkInButton.isEnabled = true
+        checkOutButton.isEnabled = true
+      }
+    }
+  }
   let locationManager = CLLocationManager()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     locationManager.delegate = self
     locationManager.requestAlwaysAuthorization()
-    loadAllEvents()
+//    loadAllEvents()
+    
+    checkInButton.isEnabled = false
+    checkOutButton.isEnabled = false
+    
+    for region in locationManager.monitoredRegions {
+      locationManager.requestState(for: region)
+    }
+    
+    // Setup buttons
+    checkInButton.setBackgroundColor(color: .white, forState: .disabled)
+    checkInButton.setBackgroundColor(color: AppColors.green, forState: .normal)
+    checkOutButton.setBackgroundColor(color: .white, forState: .disabled)
+    checkOutButton.setBackgroundColor(color: AppColors.red, forState: .normal)
+    checkInButton.setTitleColor(.white, for: .normal)
+    checkInButton.setTitleColor(.gray, for: .disabled)
+    checkOutButton.setTitleColor(.white, for: .normal)
+    checkOutButton.setTitleColor(.gray, for: .disabled)
+    checkInButton.layer.cornerRadius = 8
+    checkOutButton.layer.cornerRadius = 8
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -57,22 +89,23 @@ class AdminViewController: UIViewController {
     }
   }
   
-  // MARK: Loading and saving functions
-  func loadAllEvents() {
-    eventLocations.removeAll()
-    let allEvents = EventLocation.allEvents()
-    allEvents.forEach { add($0) }
-  }
-  
-  func saveAllEvents() {
-    let encoder = JSONEncoder()
-    do {
-      let data = try encoder.encode(eventLocations)
-      UserDefaults.standard.set(data, forKey: PreferencesKeys.savedItems)
-    } catch {
-      print("error encoding Events")
-    }
-  }
+//  // MARK: Loading and saving functions
+//  func loadAllEvents() {
+//    insideRegions.removeAll()
+//    eventLocations.removeAll()
+//    let allEvents = EventLocation.allEvents()
+//    allEvents.forEach { add($0) }
+//  }
+//
+//  func saveAllEvents() {
+//    let encoder = JSONEncoder()
+//    do {
+//      let data = try encoder.encode(eventLocations)
+//      UserDefaults.standard.set(data, forKey: PreferencesKeys.savedItems)
+//    } catch {
+//      print("error encoding Events")
+//    }
+//  }
   
   // MARK: Functions that update the model/associated views with EventLocation changes
   func add(_ eventLocation: EventLocation) {
@@ -85,6 +118,12 @@ class AdminViewController: UIViewController {
   func remove(_ eventLocation: EventLocation) {
     guard let index = eventLocations.index(of: eventLocation) else { return }
     eventLocations.remove(at: index)
+    
+    // Remove from insideRegions as well
+    if let index = insideRegions.index(of: eventLocation.identifier) {
+      insideRegions.remove(at: index)
+    }
+    
     mapView.removeAnnotation(eventLocation)
     removeRadiusOverlay(forEvent: eventLocation)
     updateEventsCount()
@@ -92,7 +131,7 @@ class AdminViewController: UIViewController {
   
   func updateEventsCount() {
     title = "Events: \(eventLocations.count)"
-    navigationItem.rightBarButtonItem?.isEnabled = (eventLocations.count < 20)
+    addLocationButton.isEnabled = (eventLocations.count < 20)
   }
   
   func region(with eventLocation: EventLocation) -> CLCircularRegion {
@@ -101,8 +140,8 @@ class AdminViewController: UIViewController {
                                   radius: eventLocation.radius,
                                   identifier: eventLocation.identifier)
     // 2
-//    region.notifyOnEntry = (eventLocation.eventType == .onEntry)
-//    region.notifyOnExit = !region.notifyOnEntry
+    region.notifyOnEntry = true
+    region.notifyOnExit = true
     return region
   }
   
@@ -164,6 +203,13 @@ class AdminViewController: UIViewController {
     self.dismiss(animated: true, completion: nil)
   }
   
+  @IBAction func checkInButtonTapped(_ sender: UIButton) {
+    showAlert(withTitle: "Check In", message: "insideRegions: \(insideRegions) eventLocations: \(eventLocations)")
+  }
+  
+  @IBAction func checkOutButtonTapped(_ sender: UIButton) {
+    showAlert(withTitle: "Check Out", message: "insideRegions: \(insideRegions) eventLocations: \(eventLocations)")
+  }
   
 }
 
@@ -181,7 +227,7 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
     add(eventLocation)
     // 2
     startMonitoring(eventLocation: eventLocation)
-    saveAllEvents()
+//    saveAllEvents()
   }
   
 }
@@ -200,6 +246,30 @@ extension AdminViewController: CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     print("Location Manager failed with the following error: \(error)")
+  }
+  
+//  func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+//    insideRegions.append(region.identifier)
+//  }
+//
+//  func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+//    if let index = insideRegions.index(of: region.identifier) {
+//        insideRegions.remove(at: index)
+//    }
+//  }
+  
+  func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+    print("DEBUG: didDetermineState: \(state)")
+    switch state {
+    case .inside:
+      insideRegions.append(region.identifier)
+    case .outside:
+      if let index = insideRegions.index(of: region.identifier) {
+          insideRegions.remove(at: index)
+      }
+    default:
+      return
+    }
   }
   
 }
@@ -243,7 +313,21 @@ extension AdminViewController: MKMapViewDelegate {
     let eventLocation = view.annotation as! EventLocation
     stopMonitoring(eventLocation: eventLocation)
     remove(eventLocation)
-    saveAllEvents()
+//    saveAllEvents()
   }
   
+}
+
+extension UIButton {
+  func setBackgroundColor(color: UIColor, forState: UIControl.State) {
+    self.clipsToBounds = true  // add this to maintain corner radius
+    UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+    if let context = UIGraphicsGetCurrentContext() {
+      context.setFillColor(color.cgColor)
+      context.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+      let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+      UIGraphicsEndImageContext()
+      self.setBackgroundImage(colorImage, for: forState)
+    }
+  }
 }

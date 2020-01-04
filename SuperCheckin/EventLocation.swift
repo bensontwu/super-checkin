@@ -86,12 +86,16 @@ class EventLocation: NSObject, Codable, MKAnnotation {
 }
 
 extension EventLocation {
-  public class func allEvents() -> [EventLocation] {
-    guard let savedData = UserDefaults.standard.data(forKey: PreferencesKeys.savedItems) else { return [] }
-    let decoder = JSONDecoder()
-    if let savedEvents = try? decoder.decode(Array.self, from: savedData) as [EventLocation] {
-      return savedEvents
-    }
-    return []
-  }
+  static var allEvents: [EventLocation] = []
 }
+
+//extension EventLocation {
+//  public class func allEvents() -> [EventLocation] {
+//    guard let savedData = UserDefaults.standard.data(forKey: PreferencesKeys.savedItems) else { return [] }
+//    let decoder = JSONDecoder()
+//    if let savedEvents = try? decoder.decode(Array.self, from: savedData) as [EventLocation] {
+//      return savedEvents
+//    }
+//    return []
+//  }
+//}

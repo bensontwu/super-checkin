@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2607348D23C03DA300BB2A4D /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2607348C23C03DA300BB2A4D /* APICaller.swift */; };
 		26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26533FA823BEEF2100681252 /* LaunchScreen.xib */; };
 		D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CB6521A739B7A00228A1F /* AppDelegate.swift */; };
 		D90CB6581A739B7A00228A1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D90CB6561A739B7A00228A1F /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2607348C23C03DA300BB2A4D /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		26533FA923BEEF2100681252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A16373B92054471A0065C2D9 /* Google.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Google.gpx; sourceTree = "<group>"; };
 		A16373BA2054475A0065C2D9 /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatedLocations.gpx; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				D90CB6761A73B1ED00228A1F /* AdminViewController.swift */,
 				D90CB67C1A73B2BD00228A1F /* AddEventViewController.swift */,
 				D90CB67E1A73C4B200228A1F /* EventLocation.swift */,
+				2607348C23C03DA300BB2A4D /* APICaller.swift */,
 				D9835AF21AA6076800D265BC /* Utilities.swift */,
 				D90CB6561A739B7A00228A1F /* Main.storyboard */,
 				D90CB6591A739B7A00228A1F /* Images.xcassets */,
@@ -189,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D90CB6821A73CBC600228A1F /* AddEventViewController.swift in Sources */,
+				2607348D23C03DA300BB2A4D /* APICaller.swift in Sources */,
 				D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */,
 				D90CB6771A73B1ED00228A1F /* AdminViewController.swift in Sources */,
 				D9835AF31AA6076800D265BC /* Utilities.swift in Sources */,

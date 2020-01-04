@@ -85,7 +85,7 @@ class AddEventLocationViewController: UITableViewController {
     let coordinate = mapView.centerCoordinate
     let radius = Double(radiusTextField.text!) ?? 0
     let identifier = NSUUID().uuidString
-    let name = ""
+    let name = nameTextField.text ?? ""
     let startTime = Date()
     let endTime = Date()
     delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
