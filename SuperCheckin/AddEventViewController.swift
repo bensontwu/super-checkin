@@ -95,5 +95,5 @@ class AddEventLocationViewController: UITableViewController {
         mapView.zoomToUserLocation()
     }
     
-    
+
 }

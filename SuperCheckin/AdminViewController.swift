@@ -236,7 +236,6 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
         startMonitoring(eventLocation: eventLocation)
         //    saveAllEvents()
     }
-    
 }
 
 // MARK: - Location Manager Delegate
