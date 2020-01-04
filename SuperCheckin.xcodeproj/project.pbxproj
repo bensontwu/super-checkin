@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2607348D23C03DA300BB2A4D /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2607348C23C03DA300BB2A4D /* APICaller.swift */; };
 		26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26533FA823BEEF2100681252 /* LaunchScreen.xib */; };
+		370662402B373F2C47F7AE6C /* Pods_SuperCheckin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */; };
 		D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CB6521A739B7A00228A1F /* AppDelegate.swift */; };
 		D90CB6581A739B7A00228A1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D90CB6561A739B7A00228A1F /* Main.storyboard */; };
 		D90CB65A1A739B7A00228A1F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D90CB6591A739B7A00228A1F /* Images.xcassets */; };
@@ -22,10 +23,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperCheckin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2607348C23C03DA300BB2A4D /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		26533FA923BEEF2100681252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		877EB5ACA85BC051279830CF /* Pods-SuperCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperCheckin.release.xcconfig"; path = "Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin.release.xcconfig"; sourceTree = "<group>"; };
 		A16373B92054471A0065C2D9 /* Google.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Google.gpx; sourceTree = "<group>"; };
 		A16373BA2054475A0065C2D9 /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatedLocations.gpx; sourceTree = "<group>"; };
+		BFC65DE3930DFBD875DAE1DE /* Pods-SuperCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperCheckin.debug.xcconfig"; path = "Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin.debug.xcconfig"; sourceTree = "<group>"; };
 		D90CB64D1A739B7A00228A1F /* SuperCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D90CB6511A739B7A00228A1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D90CB6521A739B7A00228A1F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,18 +51,30 @@
 			files = (
 				D90CB6751A73A16700228A1F /* MapKit.framework in Frameworks */,
 				D90CB6731A739D4300228A1F /* CoreLocation.framework in Frameworks */,
+				370662402B373F2C47F7AE6C /* Pods_SuperCheckin.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D357F3020909EDC7DB5373A7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BFC65DE3930DFBD875DAE1DE /* Pods-SuperCheckin.debug.xcconfig */,
+				877EB5ACA85BC051279830CF /* Pods-SuperCheckin.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D90CB6441A739B7A00228A1F = {
 			isa = PBXGroup;
 			children = (
 				D90CB64F1A739B7A00228A1F /* SuperCheckin */,
 				D9AEA6FE1A793D570020A0D4 /* Frameworks */,
 				D90CB64E1A739B7A00228A1F /* Products */,
+				D357F3020909EDC7DB5373A7 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,6 +121,7 @@
 			children = (
 				D90CB6741A73A16700228A1F /* MapKit.framework */,
 				D90CB6721A739D4300228A1F /* CoreLocation.framework */,
+				1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,9 +133,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D90CB66C1A739B7A00228A1F /* Build configuration list for PBXNativeTarget "SuperCheckin" */;
 			buildPhases = (
+				6572080299A4E18E7C7EA7AA /* [CP] Check Pods Manifest.lock */,
 				D90CB6491A739B7A00228A1F /* Sources */,
 				D90CB64A1A739B7A00228A1F /* Frameworks */,
 				D90CB64B1A739B7A00228A1F /* Resources */,
+				FD4B25575A7C95339C64165B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -185,6 +204,49 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6572080299A4E18E7C7EA7AA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SuperCheckin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD4B25575A7C95339C64165B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D90CB6491A739B7A00228A1F /* Sources */ = {
@@ -324,6 +386,7 @@
 		};
 		D90CB66D1A739B7A00228A1F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFC65DE3930DFBD875DAE1DE /* Pods-SuperCheckin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -342,6 +405,7 @@
 		};
 		D90CB66E1A739B7A00228A1F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 877EB5ACA85BC051279830CF /* Pods-SuperCheckin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
