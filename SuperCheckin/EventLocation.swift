@@ -29,16 +29,17 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Firebase
 
-class EventLocation: NSObject, Codable, MKAnnotation {
+class EventLocation: NSObject, /*Codable,*/ MKAnnotation {
     
     enum CodingKeys: String, CodingKey {
-        case latitude, longitude, radius, identifier, name, startTime, endTime
+        case latitude, longitude, radius, id, name, startTime, endTime
     }
     
     var coordinate: CLLocationCoordinate2D
     var radius: CLLocationDistance
-    var identifier: String
+    var id: String
     var name: String
     var startTime: Date
     var endTime: Date
@@ -50,50 +51,82 @@ class EventLocation: NSObject, Codable, MKAnnotation {
         return name
     }
     
-    init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, name: String, startTime: Date, endTime: Date) {
+    init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, id: String, name: String, startTime: Date, endTime: Date) {
         self.coordinate = coordinate
         self.radius = radius
-        self.identifier = identifier
+        self.id = id
         self.name = name
         self.startTime = startTime
         self.endTime = endTime
     }
     
-    // MARK: Codable
-    required init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let latitude = try values.decode(Double.self, forKey: .latitude)
-        let longitude = try values.decode(Double.self, forKey: .longitude)
-        coordinate = CLLocationCoordinate2DMake(latitude, longitude)
-        radius = try values.decode(Double.self, forKey: .radius)
-        identifier = try values.decode(String.self, forKey: .identifier)
-        name = try values.decode(String.self, forKey: .name)
-        startTime = try values.decode(Date.self, forKey: .startTime)
-        endTime = try values.decode(Date.self, forKey: .endTime)
-    }
+//    // MARK: Codable
+//    required init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        let latitude = try values.decode(Double.self, forKey: .latitude)
+//        let longitude = try values.decode(Double.self, forKey: .longitude)
+//        coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+//        radius = try values.decode(Double.self, forKey: .radius)
+//        id = try values.decode(String.self, forKey: .id)
+//        name = try values.decode(String.self, forKey: .name)
+//        startTime = try values.decode(Date.self, forKey: .startTime)
+//        endTime = try values.decode(Date.self, forKey: .endTime)
+//    }
+//
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(coordinate.latitude, forKey: .latitude)
+//        try container.encode(coordinate.longitude, forKey: .longitude)
+//        try container.encode(radius, forKey: .radius)
+//        try container.encode(id, forKey: .id)
+//        try container.encode(name, forKey: .name)
+//        try container.encode(startTime, forKey: .startTime)
+//        try container.encode(endTime, forKey: .endTime)
+//    }
     
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(coordinate.latitude, forKey: .latitude)
-        try container.encode(coordinate.longitude, forKey: .longitude)
-        try container.encode(radius, forKey: .radius)
-        try container.encode(identifier, forKey: .identifier)
-        try container.encode(name, forKey: .name)
-        try container.encode(startTime, forKey: .startTime)
-        try container.encode(endTime, forKey: .endTime)
+    func getData() -> [String:Any] {
+        var data: [String:Any] = [:]
+        data["coordinate"] = GeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        data["radius"] = radius
+        data["name"] = name
+        data["start"] = Timestamp(date: startTime)
+        data["end"] = Timestamp(date: endTime)
+        return data
     }
-    
 }
 
 extension EventLocation {
     static var allEvents: [EventLocation] = []
+    static var activeEvents: [EventLocation] {
+        return allEvents.filter {
+            $0.startTime < Date() && Date() < $0.endTime
+        }
+    }
     
-    static func refreshEvents(completion: @escaping () -> ()) {
-        APICaller.getEvents() { (eventLocs, error) in
-            if let eventLocs = eventLocs {
-                allEvents = eventLocs
-                completion()
+    static func refreshEvents(completion: @escaping (Error?) -> ()) {
+        APICaller.makeGetRequest() { (eventLocs, error) in
+            if error != nil {
+                completion(error)
+            } else {
+                if let eventLocs = eventLocs {
+                    allEvents = eventLocs
+                    completion(nil)
+                } else {
+                    print("Something went wrong") // TODO: Fix this
+                }
             }
+        }
+    }
+    
+    static func addEvent(eventLocation: EventLocation, completion: @escaping (Error?) -> ()) {
+        APICaller.makeAddRequest(eventLocation: eventLocation) { err in
+            completion(err)
+        }
+    }
+    
+    static func removeEvent(id: String, completion: @escaping (Error?) -> ()) {
+        APICaller.makeDeleteRequest(id: id) { err in
+            completion(err)
         }
     }
 }

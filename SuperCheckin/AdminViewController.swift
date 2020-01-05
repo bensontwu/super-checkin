@@ -42,7 +42,6 @@ class AdminViewController: UIViewController {
     @IBOutlet var checkInButton: UIButton!
     @IBOutlet var checkOutButton: UIButton!
     
-    var eventLocations: [EventLocation] = []
     var insideRegions: [String] = [] {
         didSet {
             if insideRegions.isEmpty {
@@ -82,10 +81,18 @@ class AdminViewController: UIViewController {
         checkOutButton.layer.cornerRadius = 8
         
         SVProgressHUD.show()
-        EventLocation.refreshEvents {
-            print(EventLocation.allEvents)
+        EventLocation.refreshEvents { [weak self] err in
             SVProgressHUD.dismiss()
+            if let self = self {
+                if err != nil {
+                    self.showAlert(withTitle: "Error", message: "Failed to refresh events.")
+                } else {
+                    self.refreshMap()
+                    print("ALLEVENTS: \(EventLocation.allEvents)")
+                }
+            }
         }
+        print("Monitored regions count: \(locationManager.monitoredRegions.count)")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -96,56 +103,16 @@ class AdminViewController: UIViewController {
         }
     }
     
-    //  // MARK: Loading and saving functions
-    //  func loadAllEvents() {
-    //    insideRegions.removeAll()
-    //    eventLocations.removeAll()
-    //    let allEvents = EventLocation.allEvents()
-    //    allEvents.forEach { add($0) }
-    //  }
-    //
-    //  func saveAllEvents() {
-    //    let encoder = JSONEncoder()
-    //    do {
-    //      let data = try encoder.encode(eventLocations)
-    //      UserDefaults.standard.set(data, forKey: PreferencesKeys.savedItems)
-    //    } catch {
-    //      print("error encoding Events")
-    //    }
-    //  }
-    
-    // MARK: Functions that update the model/associated views with EventLocation changes
-    func add(_ eventLocation: EventLocation) {
-        eventLocations.append(eventLocation)
-        mapView.addAnnotation(eventLocation)
-        addRadiusOverlay(forEvent: eventLocation)
-        updateEventsCount()
-    }
-    
-    func remove(_ eventLocation: EventLocation) {
-        guard let index = eventLocations.index(of: eventLocation) else { return }
-        eventLocations.remove(at: index)
-        
-        // Remove from insideRegions as well
-        if let index = insideRegions.index(of: eventLocation.identifier) {
-            insideRegions.remove(at: index)
-        }
-        
-        mapView.removeAnnotation(eventLocation)
-        removeRadiusOverlay(forEvent: eventLocation)
-        updateEventsCount()
-    }
-    
     func updateEventsCount() {
-        title = "Events: \(eventLocations.count)"
-        addLocationButton.isEnabled = (eventLocations.count < 20)
+        title = "Events: \(EventLocation.allEvents.count)"
+        addLocationButton.isEnabled = (EventLocation.allEvents.count < 20)
     }
     
     func region(with eventLocation: EventLocation) -> CLCircularRegion {
         // 1
         let region = CLCircularRegion(center: eventLocation.coordinate,
                                       radius: eventLocation.radius,
-                                      identifier: eventLocation.identifier)
+                                      identifier: eventLocation.id)
         // 2
         region.notifyOnEntry = true
         region.notifyOnExit = true
@@ -153,19 +120,19 @@ class AdminViewController: UIViewController {
     }
     
     func startMonitoring(eventLocation: EventLocation) {
-        // 1
-        if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
-            showAlert(withTitle:"Error", message: "Geofencing is not supported on this device!")
-            return
-        }
-        // 2
-        if CLLocationManager.authorizationStatus() != .authorizedAlways {
-            let message = """
-        Your EventLocation is saved but will only be activated once you grant
-        Geotify permission to access the device location.
-        """
-            showAlert(withTitle:"Warning", message: message)
-        }
+//        // 1
+//        if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+//            showAlert(withTitle:"Error", message: "Geofencing is not supported on this device!")
+//            return
+//        }
+//        // 2
+//        if CLLocationManager.authorizationStatus() != .authorizedAlways {
+//            let message = """
+//        Your EventLocation is saved but will only be activated once you grant
+//        SuperCheckin permission to access the device location.
+//        """
+//            showAlert(withTitle:"Warning", message: message)
+//        }
         // 3
         let fenceRegion = region(with: eventLocation)
         // 4
@@ -175,7 +142,7 @@ class AdminViewController: UIViewController {
     func stopMonitoring(eventLocation: EventLocation) {
         for region in locationManager.monitoredRegions {
             guard let circularRegion = region as? CLCircularRegion,
-                circularRegion.identifier == eventLocation.identifier else { continue }
+                circularRegion.identifier == eventLocation.id else { continue }
             locationManager.stopMonitoring(for: circularRegion)
         }
     }
@@ -187,17 +154,37 @@ class AdminViewController: UIViewController {
         mapView?.add(MKCircle(center: eventLocation.coordinate, radius: eventLocation.radius))
     }
     
-    func removeRadiusOverlay(forEvent eventLocation: EventLocation) {
-        // Find exactly one overlay which has the same coordinates & radius to remove
-        guard let overlays = mapView?.overlays else { return }
-        for overlay in overlays {
-            guard let circleOverlay = overlay as? MKCircle else { continue }
-            let coord = circleOverlay.coordinate
-            if coord.latitude == eventLocation.coordinate.latitude && coord.longitude == eventLocation.coordinate.longitude && circleOverlay.radius == eventLocation.radius {
-                mapView?.remove(circleOverlay)
-                break
-            }
+//    func removeRadiusOverlay(forEvent eventLocation: EventLocation) {
+//        // Find exactly one overlay which has the same coordinates & radius to remove
+//        guard let overlays = mapView?.overlays else { return }
+//        for overlay in overlays {
+//            guard let circleOverlay = overlay as? MKCircle else { continue }
+//            let coord = circleOverlay.coordinate
+//            if coord.latitude == eventLocation.coordinate.latitude && coord.longitude == eventLocation.coordinate.longitude && circleOverlay.radius == eventLocation.radius {
+//                mapView?.remove(circleOverlay)
+//                break
+//            }
+//        }
+//    }
+    
+    func refreshMap() {
+        // Remove
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        
+        for region in locationManager.monitoredRegions {
+            print("stop monitoring: \(region)")
+            locationManager.stopMonitoring(for: region)
         }
+        
+        // Add
+        for eventLocation in EventLocation.allEvents {
+            self.mapView.addAnnotation(eventLocation)
+            self.addRadiusOverlay(forEvent: eventLocation)
+            
+            self.startMonitoring(eventLocation: eventLocation)
+        }
+        self.updateEventsCount()
     }
     
     // MARK: - Button Actions
@@ -211,11 +198,11 @@ class AdminViewController: UIViewController {
     }
     
     @IBAction func checkInButtonTapped(_ sender: UIButton) {
-        showAlert(withTitle: "Check In", message: "insideRegions: \(insideRegions) eventLocations: \(eventLocations)")
+        showAlert(withTitle: "Check In", message: "insideRegions: \(insideRegions) eventLocations: \(EventLocation.allEvents)")
     }
     
     @IBAction func checkOutButtonTapped(_ sender: UIButton) {
-        showAlert(withTitle: "Check Out", message: "insideRegions: \(insideRegions) eventLocations: \(eventLocations)")
+        showAlert(withTitle: "Check Out", message: "insideRegions: \(insideRegions) eventLocations: \(EventLocation.allEvents)")
     }
     
 }
@@ -225,16 +212,24 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
     
     func addEventLocationViewController(
         _ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
-        radius: Double, identifier: String, name: String, startTime: Date, endTime: Date
+        radius: Double, id: String, name: String, startTime: Date, endTime: Date
     ) {
         controller.dismiss(animated: true, completion: nil)
         // 1
         let clampedRadius = min(radius, locationManager.maximumRegionMonitoringDistance)
-        let eventLocation = EventLocation(coordinate: coordinate, radius: clampedRadius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
-        add(eventLocation)
-        // 2
-        startMonitoring(eventLocation: eventLocation)
-        //    saveAllEvents()
+        let eventLocation = EventLocation(coordinate: coordinate, radius: clampedRadius, id: id, name: name, startTime: startTime, endTime: endTime)
+        
+        // Add event
+        SVProgressHUD.show()
+        EventLocation.addEvent(eventLocation: eventLocation) { [weak self] err in
+            SVProgressHUD.dismiss()
+            if let self = self {
+                if err != nil {
+                    self.showAlert(withTitle: "Error", message: "Failed to add event, please try again.")
+                } else {
+                }
+            }
+        }
     }
 }
 
@@ -317,9 +312,22 @@ extension AdminViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // Delete EventLocation
         let eventLocation = view.annotation as! EventLocation
-        stopMonitoring(eventLocation: eventLocation)
-        remove(eventLocation)
-        //    saveAllEvents()
+        
+        // Remove event
+        SVProgressHUD.show()
+        EventLocation.removeEvent(id: eventLocation.id) { [weak self] err in
+            SVProgressHUD.dismiss()
+            if let self = self {
+                if err != nil {
+                    self.showAlert(withTitle: "Error", message: "Failed to delete event, please try again.")
+                } else {
+                    // Remove from insideRegions as well
+                    if let index = self.insideRegions.index(of: eventLocation.id) {
+                        self.insideRegions.remove(at: index)
+                    }
+                }
+            }
+        }
     }
     
 }

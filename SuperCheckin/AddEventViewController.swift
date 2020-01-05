@@ -31,7 +31,7 @@ import MapKit
 
 protocol AddEventLocationViewControllerDelegate {
     func addEventLocationViewController(_ controller: AddEventLocationViewController, didAddCoordinate coordinate: CLLocationCoordinate2D,
-                                        radius: Double, identifier: String, name: String, startTime: Date, endTime: Date)
+                                        radius: Double, id: String, name: String, startTime: Date, endTime: Date)
 }
 
 class AddEventLocationViewController: UITableViewController {
@@ -88,7 +88,7 @@ class AddEventLocationViewController: UITableViewController {
         let name = nameTextField.text ?? ""
         let startTime = Date()
         let endTime = Date()
-        delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, identifier: identifier, name: name, startTime: startTime, endTime: endTime)
+        delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, id: identifier, name: name, startTime: startTime, endTime: endTime)
     }
     
     @IBAction private func onZoomToCurrentLocation(sender: AnyObject) {
