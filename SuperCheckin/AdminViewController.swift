@@ -35,12 +35,13 @@ struct PreferencesKeys {
     static let savedItems = "savedItems"
 }
 
-class AdminViewController: UIViewController {
+class AdminViewController: UIViewController, FireDBDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var addLocationButton: UIButton!
     @IBOutlet var checkInButton: UIButton!
     @IBOutlet var checkOutButton: UIButton!
+    let fireDB = FireDB()
     
     var insideRegions: [String] = [] {
         didSet {
@@ -80,19 +81,40 @@ class AdminViewController: UIViewController {
         checkInButton.layer.cornerRadius = 8
         checkOutButton.layer.cornerRadius = 8
         
+//        SVProgressHUD.show()
+//        EventLocation.refreshEvents { [weak self] err in
+//            SVProgressHUD.dismiss()
+//            if let self = self {
+//                if err != nil {
+//                    self.showAlert(withTitle: "Error", message: "Failed to refresh events.")
+//                } else {
+//                    self.refreshMap()
+//                }
+//            }
+//        }
+        
+        fireDB.delegate = self
+        fireDB.startListening()
+        
         SVProgressHUD.show()
-        EventLocation.refreshEvents { [weak self] err in
+        fireDB.refreshEvents { [weak self] err in
             SVProgressHUD.dismiss()
             if let self = self {
                 if err != nil {
                     self.showAlert(withTitle: "Error", message: "Failed to refresh events.")
                 } else {
                     self.refreshMap()
-                    print("ALLEVENTS: \(EventLocation.allEvents)")
                 }
             }
         }
-        print("Monitored regions count: \(locationManager.monitoredRegions.count)")
+        // TODO: create delegate or something in EventLocation to inform this VC of refresh
+    }
+    
+    
+    // MARK: - FireDBDelegate
+    
+    func respondToData() {
+        refreshMap()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -154,26 +176,12 @@ class AdminViewController: UIViewController {
         mapView?.add(MKCircle(center: eventLocation.coordinate, radius: eventLocation.radius))
     }
     
-//    func removeRadiusOverlay(forEvent eventLocation: EventLocation) {
-//        // Find exactly one overlay which has the same coordinates & radius to remove
-//        guard let overlays = mapView?.overlays else { return }
-//        for overlay in overlays {
-//            guard let circleOverlay = overlay as? MKCircle else { continue }
-//            let coord = circleOverlay.coordinate
-//            if coord.latitude == eventLocation.coordinate.latitude && coord.longitude == eventLocation.coordinate.longitude && circleOverlay.radius == eventLocation.radius {
-//                mapView?.remove(circleOverlay)
-//                break
-//            }
-//        }
-//    }
-    
     func refreshMap() {
         // Remove
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
         
         for region in locationManager.monitoredRegions {
-            print("stop monitoring: \(region)")
             locationManager.stopMonitoring(for: region)
         }
         
@@ -221,7 +229,7 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
         
         // Add event
         SVProgressHUD.show()
-        EventLocation.addEvent(eventLocation: eventLocation) { [weak self] err in
+        fireDB.addEvent(eventLocation: eventLocation) { [weak self] err in
             SVProgressHUD.dismiss()
             if let self = self {
                 if err != nil {
@@ -249,18 +257,7 @@ extension AdminViewController: CLLocationManagerDelegate {
         print("Location Manager failed with the following error: \(error)")
     }
     
-    //  func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-    //    insideRegions.append(region.identifier)
-    //  }
-    //
-    //  func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-    //    if let index = insideRegions.index(of: region.identifier) {
-    //        insideRegions.remove(at: index)
-    //    }
-    //  }
-    
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
-        print("DEBUG: didDetermineState: \(state)")
         switch state {
         case .inside:
             insideRegions.append(region.identifier)
@@ -315,7 +312,7 @@ extension AdminViewController: MKMapViewDelegate {
         
         // Remove event
         SVProgressHUD.show()
-        EventLocation.removeEvent(id: eventLocation.id) { [weak self] err in
+        fireDB.removeEvent(id: eventLocation.id) { [weak self] err in
             SVProgressHUD.dismiss()
             if let self = self {
                 if err != nil {
