@@ -102,41 +102,6 @@ extension EventLocation {
             $0.startTime < Date() && Date() < $0.endTime
         }
     }
-    
-    static func startListening() {
-        APICaller.addListener() { (eventLocs, err) in
-            if let eventLocs = eventLocs {
-                allEvents = eventLocs
-            }
-        }
-    }
-    
-    static func refreshEvents(completion: @escaping (Error?) -> ()) {
-        APICaller.makeGetRequest() { (eventLocs, error) in
-            if error != nil {
-                completion(error)
-            } else {
-                if let eventLocs = eventLocs {
-                    allEvents = eventLocs
-                    completion(nil)
-                } else {
-                    print("Something went wrong") // TODO: Fix this
-                }
-            }
-        }
-    }
-    
-    static func addEvent(eventLocation: EventLocation, completion: @escaping (Error?) -> ()) {
-        APICaller.makeAddRequest(eventLocation: eventLocation) { err in
-            completion(err)
-        }
-    }
-    
-    static func removeEvent(id: String, completion: @escaping (Error?) -> ()) {
-        APICaller.makeDeleteRequest(id: id) { err in
-            completion(err)
-        }
-    }
 }
 
 //extension EventLocation {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2607348D23C03DA300BB2A4D /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2607348C23C03DA300BB2A4D /* APICaller.swift */; };
 		262E947B23C04F8C00932487 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 262E947A23C04F8C00932487 /* GoogleService-Info.plist */; };
+		262E947D23C172D200932487 /* FireDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262E947C23C172D200932487 /* FireDB.swift */; };
 		26533FAA23BEEF2100681252 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26533FA823BEEF2100681252 /* LaunchScreen.xib */; };
 		370662402B373F2C47F7AE6C /* Pods_SuperCheckin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */; };
 		D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90CB6521A739B7A00228A1F /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 		1D6FEBFA8FBB4C1D5D615804 /* Pods_SuperCheckin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuperCheckin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2607348C23C03DA300BB2A4D /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		262E947A23C04F8C00932487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		262E947C23C172D200932487 /* FireDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireDB.swift; sourceTree = "<group>"; };
 		26533FA923BEEF2100681252 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		877EB5ACA85BC051279830CF /* Pods-SuperCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuperCheckin.release.xcconfig"; path = "Target Support Files/Pods-SuperCheckin/Pods-SuperCheckin.release.xcconfig"; sourceTree = "<group>"; };
 		A16373B92054471A0065C2D9 /* Google.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Google.gpx; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				D90CB6761A73B1ED00228A1F /* AdminViewController.swift */,
 				D90CB67C1A73B2BD00228A1F /* AddEventViewController.swift */,
 				D90CB67E1A73C4B200228A1F /* EventLocation.swift */,
+				262E947C23C172D200932487 /* FireDB.swift */,
 				2607348C23C03DA300BB2A4D /* APICaller.swift */,
 				D9835AF21AA6076800D265BC /* Utilities.swift */,
 				D90CB6561A739B7A00228A1F /* Main.storyboard */,
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D90CB6821A73CBC600228A1F /* AddEventViewController.swift in Sources */,
+				262E947D23C172D200932487 /* FireDB.swift in Sources */,
 				2607348D23C03DA300BB2A4D /* APICaller.swift in Sources */,
 				D90CB6531A739B7A00228A1F /* AppDelegate.swift in Sources */,
 				D90CB6771A73B1ED00228A1F /* AdminViewController.swift in Sources */,

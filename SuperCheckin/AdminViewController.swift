@@ -35,12 +35,13 @@ struct PreferencesKeys {
     static let savedItems = "savedItems"
 }
 
-class AdminViewController: UIViewController {
+class AdminViewController: UIViewController, FireDBDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet var addLocationButton: UIButton!
     @IBOutlet var checkInButton: UIButton!
     @IBOutlet var checkOutButton: UIButton!
+    let fireDB = FireDB()
     
     var insideRegions: [String] = [] {
         didSet {
@@ -80,8 +81,23 @@ class AdminViewController: UIViewController {
         checkInButton.layer.cornerRadius = 8
         checkOutButton.layer.cornerRadius = 8
         
+//        SVProgressHUD.show()
+//        EventLocation.refreshEvents { [weak self] err in
+//            SVProgressHUD.dismiss()
+//            if let self = self {
+//                if err != nil {
+//                    self.showAlert(withTitle: "Error", message: "Failed to refresh events.")
+//                } else {
+//                    self.refreshMap()
+//                }
+//            }
+//        }
+        
+        fireDB.delegate = self
+        fireDB.startListening()
+        
         SVProgressHUD.show()
-        EventLocation.refreshEvents { [weak self] err in
+        fireDB.refreshEvents { [weak self] err in
             SVProgressHUD.dismiss()
             if let self = self {
                 if err != nil {
@@ -91,9 +107,14 @@ class AdminViewController: UIViewController {
                 }
             }
         }
-        
-        EventLocation.startListening()
         // TODO: create delegate or something in EventLocation to inform this VC of refresh
+    }
+    
+    
+    // MARK: - FireDBDelegate
+    
+    func respondToData() {
+        refreshMap()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -208,7 +229,7 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
         
         // Add event
         SVProgressHUD.show()
-        EventLocation.addEvent(eventLocation: eventLocation) { [weak self] err in
+        fireDB.addEvent(eventLocation: eventLocation) { [weak self] err in
             SVProgressHUD.dismiss()
             if let self = self {
                 if err != nil {
@@ -291,7 +312,7 @@ extension AdminViewController: MKMapViewDelegate {
         
         // Remove event
         SVProgressHUD.show()
-        EventLocation.removeEvent(id: eventLocation.id) { [weak self] err in
+        fireDB.removeEvent(id: eventLocation.id) { [weak self] err in
             SVProgressHUD.dismiss()
             if let self = self {
                 if err != nil {
