@@ -103,6 +103,14 @@ extension EventLocation {
         }
     }
     
+    static func startListening() {
+        APICaller.addListener() { (eventLocs, err) in
+            if let eventLocs = eventLocs {
+                allEvents = eventLocs
+            }
+        }
+    }
+    
     static func refreshEvents(completion: @escaping (Error?) -> ()) {
         APICaller.makeGetRequest() { (eventLocs, error) in
             if error != nil {

@@ -13,6 +13,28 @@ class APICaller {
     static let db = Firestore.firestore()
     static let ref = db.collection("eventLocations")
     
+    static func addListener(completion: @escaping ([EventLocation]?, Error?) -> ()) {
+        ref.addSnapshotListener { querySnapshot, err in
+            guard let documents = querySnapshot?.documents else {
+                print("Error fetching documents: \(err!)")
+                completion(nil, err)
+                return
+            }
+            
+            var eventLocs: [EventLocation] = []
+            for document in documents {
+                if let eventLoc = getEvent(document: document) {
+                    eventLocs.append(eventLoc)
+                } else {
+                    continue
+                }
+            }
+            let events = documents.map { $0["name"]! }
+            print("SNAPSHOT: Current events: \(events)")
+            completion(eventLocs, nil)
+        }
+    }
+    
     static func makeGetRequest(completion: @escaping ([EventLocation]?, Error?) -> ()) {
         ref.getDocuments() { (querySnapshot, err) in
             if err != nil {

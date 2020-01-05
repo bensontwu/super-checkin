@@ -88,11 +88,12 @@ class AdminViewController: UIViewController {
                     self.showAlert(withTitle: "Error", message: "Failed to refresh events.")
                 } else {
                     self.refreshMap()
-                    print("ALLEVENTS: \(EventLocation.allEvents)")
                 }
             }
         }
-        print("Monitored regions count: \(locationManager.monitoredRegions.count)")
+        
+        EventLocation.startListening()
+        // TODO: create delegate or something in EventLocation to inform this VC of refresh
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -154,26 +155,12 @@ class AdminViewController: UIViewController {
         mapView?.add(MKCircle(center: eventLocation.coordinate, radius: eventLocation.radius))
     }
     
-//    func removeRadiusOverlay(forEvent eventLocation: EventLocation) {
-//        // Find exactly one overlay which has the same coordinates & radius to remove
-//        guard let overlays = mapView?.overlays else { return }
-//        for overlay in overlays {
-//            guard let circleOverlay = overlay as? MKCircle else { continue }
-//            let coord = circleOverlay.coordinate
-//            if coord.latitude == eventLocation.coordinate.latitude && coord.longitude == eventLocation.coordinate.longitude && circleOverlay.radius == eventLocation.radius {
-//                mapView?.remove(circleOverlay)
-//                break
-//            }
-//        }
-//    }
-    
     func refreshMap() {
         // Remove
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
         
         for region in locationManager.monitoredRegions {
-            print("stop monitoring: \(region)")
             locationManager.stopMonitoring(for: region)
         }
         
@@ -249,18 +236,7 @@ extension AdminViewController: CLLocationManagerDelegate {
         print("Location Manager failed with the following error: \(error)")
     }
     
-    //  func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-    //    insideRegions.append(region.identifier)
-    //  }
-    //
-    //  func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-    //    if let index = insideRegions.index(of: region.identifier) {
-    //        insideRegions.remove(at: index)
-    //    }
-    //  }
-    
     func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
-        print("DEBUG: didDetermineState: \(state)")
         switch state {
         case .inside:
             insideRegions.append(region.identifier)
