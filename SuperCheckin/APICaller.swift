@@ -73,7 +73,7 @@ class APICaller {
             let start = data["start"] as? Timestamp,
             let end = data["end"] as? Timestamp
         else {
-            print("Something went wrong in getEvent")
+            print("DEBUG: Unable to decode json data in getEvent")
             return nil
         }
         let coord = CLLocationCoordinate2D(latitude: geo.latitude, longitude: geo.longitude)

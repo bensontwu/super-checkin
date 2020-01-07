@@ -117,6 +117,9 @@ class AdminViewController: UIViewController, FireDBDelegate {
         refreshMap()
     }
     
+    
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addEventLocationSegue" {
             let navigationController = segue.destination as! UINavigationController
@@ -124,6 +127,9 @@ class AdminViewController: UIViewController, FireDBDelegate {
             vc.delegate = self
         }
     }
+    
+    
+    // MARK: - Location Monitoring
     
     func updateEventsCount() {
         title = "Events: \(EventLocation.allEvents.count)"
@@ -177,6 +183,9 @@ class AdminViewController: UIViewController, FireDBDelegate {
     }
     
     func refreshMap() {
+        // Reset insideRegions
+        insideRegions.removeAll()
+        
         // Remove
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
@@ -245,7 +254,8 @@ extension AdminViewController: AddEventLocationViewControllerDelegate {
 extension AdminViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        mapView.showsUserLocation = (status == .authorizedAlways)
+        mapView.showsUserLocation = (status == .authorizedAlways || status == .authorizedWhenInUse)
+        print("User location: \(mapView.showsUserLocation)")
     }
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?,
