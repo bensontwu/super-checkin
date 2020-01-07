@@ -45,14 +45,39 @@ class AddEventLocationViewController: UITableViewController {
     
     var delegate: AddEventLocationViewControllerDelegate?
     
+    
+    // MARK: - View Setup
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = addButton
         addButton.isEnabled = false
         
+        // Set up radius picker
+        radiusTextField.keyboardType = .numberPad
+        
+        // Set up time pickers for time text fields
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
+        startTimeTextField.inputView = datePicker
+//        startTimeTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEnd)
+        endTimeTextField.inputView = datePicker
+        
+        // Allow for tap to exit keyboard
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dateChanged(datePicker: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        if startTimeTextField.isFirstResponder {
+            startTimeTextField.text = dateFormatter.string(from: datePicker.date)
+        } else if endTimeTextField.isFirstResponder {
+            endTimeTextField.text = dateFormatter.string(from: datePicker.date)
+        }
     }
     
     @objc func dismissKeyboard() {
@@ -77,6 +102,9 @@ class AddEventLocationViewController: UITableViewController {
         }
     }
     
+    
+    // MARK: - Button Actions
+    
     @IBAction func onCancel(sender: AnyObject) {
         dismiss(animated: true, completion: nil)
     }
@@ -86,8 +114,14 @@ class AddEventLocationViewController: UITableViewController {
         let radius = Double(radiusTextField.text!) ?? 0
         let identifier = NSUUID().uuidString
         let name = nameTextField.text ?? ""
-        let startTime = Date()
-        let endTime = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        guard let startTime = dateFormatter.date(from: startTimeTextField.text ?? ""),
+            let endTime = dateFormatter.date(from: endTimeTextField.text ?? "")
+        else {
+            showAlert(withTitle: "Error", message: "Unable to create event. Please make sure all fields are filled.")
+            return
+        }
         delegate?.addEventLocationViewController(self, didAddCoordinate: coordinate, radius: radius, id: identifier, name: name, startTime: startTime, endTime: endTime)
     }
     
